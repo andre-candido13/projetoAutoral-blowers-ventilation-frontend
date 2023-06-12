@@ -1,18 +1,13 @@
 import React from "react";
-import { useContext, useState } from "react";
-import { useNavigate, Link} from "react-router-dom";
-import { api } from "../services/Auth.jsx";
-import { UserContext } from "../context/UserContext.jsx";
-import useToken from "../hooks/UseToken.jsx";
+import { useState } from "react";
+import { api } from "../services/Auth";
+import { useNavigate, Link } from "react-router-dom";
 
-export default function SignIn() {
 
-    const [form, setForm] = useState({ name: "", password: "" })
-    //const [password, setPassword] = useState("")
-    const { setUserData } = useContext(UserContext)
-    const token = useToken()
-    console.log(token)
 
+export default function SignUp() {
+
+    const [form, setForm] = useState({ nome: "", email: "", password: "", cpf: "" });
     const navigate = useNavigate();
 
     function handleform(e) {
@@ -20,28 +15,24 @@ export default function SignIn() {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    function handlelogin(e) {
+    function handleSignUp() {
 
-        e.preventDefault();
+        e.preventDefault()
 
-        //const body = {
-        // email,
-        // senha
-        //}
 
-        const promise = api.post('/sign-in', form)
+        const promise = api.post('/sign-up', form)
         promise.then(response => {
-            setUserData(response.data)
+            alert('cadastro realizado')
             navigate('/')
         });
-
         promise.catch(err => {
-            alert(err.response.statusText)
-        })
+            err.response.textStatus
+        });
 
     }
 
     return (
+
 
         <section className="gradient-form h-full bg-neutral-200 dark:bg-neutral-700">
             <div className="container h-full p-10">
@@ -65,8 +56,20 @@ export default function SignIn() {
                                         </div>
 
                                         <form>
-                                            <p className="mb-4">Por favor, faça o login</p>
+                                            <p className="mb-4">Por favor, realize seu cadastro</p>
                                             <div className="relative mb-4">
+                                                <input
+                                                    type="nome"
+                                                    name="nome"
+                                                    placeholder="digite seu nome"
+                                                    value={form.nome}
+                                                    onChange={handleform}
+                                                    required
+                                                    className="w-full bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 rounded px-3 py-3 text-lg text-gray-800 placeholder-gray-300 focus:outline-none transition duration-200 ease-in-out"
+                                                />
+
+                                            </div>
+                                            <div className="relative mb-4" data-te-input-wrapper-init>
                                                 <input
                                                     type="email"
                                                     name="email"
@@ -76,8 +79,9 @@ export default function SignIn() {
                                                     required
                                                     className="w-full bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 rounded px-3 py-3 text-lg text-gray-800 placeholder-gray-300 focus:outline-none transition duration-200 ease-in-out"
                                                 />
-                                                
+
                                             </div>
+
                                             <div className="relative mb-4" data-te-input-wrapper-init>
                                                 <input
                                                     type="password"
@@ -88,7 +92,20 @@ export default function SignIn() {
                                                     required
                                                     className="w-full bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 rounded px-3 py-3 text-lg text-gray-800 placeholder-gray-300 focus:outline-none transition duration-200 ease-in-out"
                                                 />
-                                                
+
+                                            </div>
+
+                                            <div className="relative mb-4" data-te-input-wrapper-init>
+                                                <input
+                                                    type="cpf"
+                                                    name="cpf"
+                                                    placeholder="digite seu cpf"
+                                                    value={form.cpf}
+                                                    onChange={handleform}
+                                                    required
+                                                    className="w-full bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 rounded px-3 py-3 text-lg text-gray-800 placeholder-gray-300 focus:outline-none transition duration-200 ease-in-out"
+                                                />
+
                                             </div>
 
                                             <div className="mb-12 pb-1 pt-1 text-center">
@@ -98,18 +115,12 @@ export default function SignIn() {
                                                     data-te-ripple-init
                                                     data-te-ripple-color="light"
                                                 >
-                                                    Entrar
+                                                    Cadastrar
                                                 </button>
-                                               
-                                                <a href="#!">Esqueceu a senha?</a>
+
+                                              
                                             </div>
 
-                                            <div className="flex items-center justify-between pb-6">
-                                                <p className="mb-0 mr-2">Ainda não tem uma conta?</p>
-                                               
-                                                <Link className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
-                                                 to="/sign-up">Cadastre-se</Link>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -132,7 +143,20 @@ export default function SignIn() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     )
+
 }
-
-
